@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Velluto Cellars offers a considered collection of Italian wine, rare Scotch and distinguished bottles.">
+  <title>Velluto Cellars — Italian Wine & Rare Spirits</title>
+  <style>
+    /* ---------- Luxury color palette and page foundations ---------- */
+    :root{
+      --wine:#6f2338;
+      --wine-2:#8c3249;
+      --ink:#f5efe9;
+      --ivory:#070606;
+      --paper:#12100f;
+      --stone:#3b302b;
+      --muted:#aaa099;
+      --gold:#d18b2d;
+      --gold-light:#f0c476;
+      --white:#fff;
+      --radius:28px;
+      --sidebar:230px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;color:var(--ink);background:var(--ivory);font-family:Arial,Helvetica,sans-serif;line-height:1.55}
+    body.locked{overflow:hidden}
+    img{display:block;width:100%}
+    button,input,select{font:inherit}
+    button{color:inherit}
+    a{color:inherit;text-decoration:none}
+    ::selection{background:var(--gold-light);color:var(--wine)}
+
+    /* ---------- Vertical navigation rail ---------- */
+    .side-nav{
+      position:fixed;
+      inset:0 auto 0 0;
+      z-index:30;
+      width:var(--sidebar);
+      display:flex;
+      flex-direction:column;
+      padding:30px 22px 22px;
+      border-right:1px solid var(--stone);
+      background:rgba(255,253,248,.96);
+      backdrop-filter:blur(14px);
+    }
+    .brand{display:flex;align-items:center;gap:12px;margin-bottom:54px}
+    .brand-mark{
+      width:45px;height:45px;display:grid;place-items:center;
+      border:1px solid var(--wine);border-radius:50%;
+      color:var(--paper);background:var(--wine);
+      font-family:Georgia,"Times New Roman",serif;font-size:1.15rem;
+    }
+    .brand-copy b{display:block;font-family:Georgia,"Times New Roman",serif;font-size:1.05rem;letter-spacing:.04em}
+    .brand-copy span{display:block;color:var(--muted);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase}
+    .vertical-tabs{display:grid;gap:9px}
+    .tab-button{
+      width:100%;display:flex;align-items:center;gap:13px;
+      padding:12px 14px;border:1px solid transparent;border-radius:16px;
+      background:transparent;cursor:pointer;text-align:left;
+      color:var(--muted);font-size:.8rem;font-weight:700;transition:.2s;
+    }
+    .tab-number{width:25px;height:25px;display:grid;place-items:center;border:1px solid var(--stone);border-radius:50%;font-size:.58rem}
+    .tab-button:hover{color:var(--wine);background:#f1ece3}
+    .tab-button.active{color:var(--white);background:var(--wine)}
+    .tab-button.active .tab-number{border-color:rgba(255,255,255,.45);color:var(--gold-light)}
+    .side-bottom{margin-top:auto}
+    .bag-button{
+      width:100%;display:flex;align-items:center;justify-content:space-between;
+      padding:13px 15px;border:1px solid var(--wine);border-radius:16px;
+      background:var(--paper);cursor:pointer;font-size:.74rem;font-weight:800;
+    }
+    .bag-count{width:25px;height:25px;display:grid;place-items:center;border-radius:50%;background:var(--wine);color:var(--white);font-size:.62rem}
+    .responsible{margin:16px 4px 0;color:#9b958d;font-size:.6rem}
+
+    /* ---------- Main tab panels ---------- */
+    main{min-height:100vh;margin-left:var(--sidebar)}
+    .tab-panel{display:none;animation:fade .42s ease}
+    .tab-panel.active{display:block}
+    @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+    .page-wrap{width:min(1220px,calc(100% - 80px));margin:auto}
+    .kicker{display:inline-flex;align-items:center;gap:10px;color:var(--gold);font-size:.66rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+    .kicker::before{content:"";width:30px;height:1px;background:currentColor}
+    h1,h2,h3{font-family:Georgia,"Times New Roman",serif;font-weight:500}
+
+    /* ---------- Home panel ---------- */
+    .hero{min-height:100vh;display:grid;grid-template-columns:.88fr 1.12fr;align-items:stretch}
+    .hero-copy{display:flex;flex-direction:column;justify-content:center;padding:90px 7vw 90px max(40px,6vw)}
+    h1{max-width:650px;margin:25px 0 26px;font-size:clamp(4rem,7.5vw,7.7rem);line-height:.84;letter-spacing:-.065em}
+    h1 em{display:block;color:var(--wine);font-weight:inherit}
+    .hero-copy>p{max-width:460px;margin:0;color:var(--muted);font-size:1rem}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+    .action{
+      min-height:49px;display:inline-flex;align-items:center;justify-content:center;
+      padding:0 22px;border:1px solid var(--wine);border-radius:999px;
+      background:transparent;cursor:pointer;font-size:.73rem;font-weight:800;letter-spacing:.04em;transition:.2s;
+    }
+    .action.primary{color:var(--white);background:var(--wine)}
+    .action:hover{transform:translateY(-2px);border-color:var(--gold);background:var(--gold);color:var(--white)}
+    .hero-image{position:relative;min-height:100vh;overflow:hidden}
+    .hero-image img{height:100%;object-fit:cover}
+    .hero-image::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(42,17,24,.15),transparent 35%)}
+    .vintage-card{
+      position:absolute;z-index:2;right:34px;bottom:34px;
+      width:178px;padding:21px;border:1px solid rgba(255,255,255,.45);border-radius:22px;
+      color:var(--white);background:rgba(42,17,24,.75);backdrop-filter:blur(12px)
+    }
+    .vintage-card small{display:block;color:var(--gold-light);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase}
+    .vintage-card b{display:block;margin-top:6px;font:1.25rem Georgia,serif}
+
+    /* ---------- Collection panel ---------- */
+    .content-page{padding:90px 0 110px}
+    .page-head{display:flex;align-items:end;justify-content:space-between;gap:50px;margin-bottom:60px}
+    .page-head h2{max-width:680px;margin:15px 0 0;font-size:clamp(3.3rem,6vw,6rem);line-height:.9;letter-spacing:-.05em}
+    .page-head p{max-width:340px;margin:0;color:var(--muted);font-size:.87rem}
+    .collection-filter{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+    .filter-button{padding:9px 16px;border:1px solid var(--stone);border-radius:999px;background:var(--paper);cursor:pointer;color:var(--muted);font-size:.68rem;font-weight:800}
+    .filter-button.active,.filter-button:hover{border-color:var(--wine);background:var(--wine);color:var(--white)}
+    .product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+    .product-card{overflow:hidden;border:1px solid var(--stone);border-radius:var(--radius);background:var(--paper);transition:.25s}
+    .product-card.hidden{display:none}
+    .product-card:hover{transform:translateY(-5px)}
+    .product-image{position:relative;height:355px;overflow:hidden;background:#e8e0d3}
+    .product-image img{height:100%;object-fit:cover;transition:transform .6s}
+    .product-card:hover img{transform:scale(1.035)}
+    .product-type{position:absolute;left:14px;top:14px;padding:7px 11px;border-radius:999px;background:rgba(255,253,248,.9);font-size:.56rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase}
+    .product-info{padding:22px}
+    .product-title{display:flex;justify-content:space-between;align-items:start;gap:18px}
+    .product-title h3{margin:0;font-size:1.35rem;line-height:1.05}
+    .price{color:var(--wine);font-size:.85rem;font-weight:900}
+    .product-info p{min-height:40px;margin:10px 0 18px;color:var(--muted);font-size:.76rem}
+    .product-bottom{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .origin{color:#9a9288;font-size:.59rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase}
+    .add-button{width:39px;height:39px;border:1px solid var(--wine);border-radius:50%;background:var(--wine);color:var(--white);cursor:pointer;font-size:1.2rem;transition:.2s}
+    .add-button:hover{background:var(--gold);border-color:var(--gold);transform:rotate(90deg)}
+
+    /* ---------- Italian and Scotch story panels ---------- */
+    .story-layout{display:grid;grid-template-columns:1fr 1fr;gap:75px;align-items:center;min-height:calc(100vh - 1px);padding:80px 0}
+    .story-image{position:relative;height:680px;overflow:hidden;border-radius:34px}
+    .story-image img{height:100%;object-fit:cover}
+    .story-badge{position:absolute;right:20px;top:20px;width:105px;aspect-ratio:1;display:grid;place-items:center;padding:15px;border-radius:50%;background:var(--paper);color:var(--wine);text-align:center;font:1rem Georgia,serif}
+    .story-copy h2{margin:19px 0 25px;font-size:clamp(3.4rem,6vw,6.3rem);line-height:.88;letter-spacing:-.055em}
+    .story-copy>p{max-width:490px;color:var(--muted);font-size:.92rem}
+    .region-list{margin-top:38px;border-top:1px solid var(--stone)}
+    .region{display:grid;grid-template-columns:110px 1fr;gap:25px;padding:18px 0;border-bottom:1px solid var(--stone)}
+    .region b{font:1rem Georgia,serif}.region span{color:var(--muted);font-size:.75rem}
+
+    /* ---------- Concierge panel ---------- */
+    .concierge-page{min-height:100vh;display:grid;grid-template-columns:1fr .9fr;align-items:stretch}
+    .concierge-copy{display:flex;flex-direction:column;justify-content:center;padding:80px max(45px,7vw)}
+    .concierge-copy h2{margin:18px 0 22px;font-size:clamp(3.5rem,6vw,6rem);line-height:.9;letter-spacing:-.055em}
+    .concierge-copy>p{max-width:500px;margin:0;color:var(--muted);font-size:.9rem}
+    .contact-list{display:grid;gap:12px;margin-top:34px}
+    .contact-line{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--stone)}
+    .contact-icon{width:38px;height:38px;display:grid;place-items:center;border:1px solid var(--stone);border-radius:50%;color:var(--wine);font-size:.67rem;font-weight:900}
+    .contact-line b{display:block;font-size:.76rem}.contact-line span{display:block;color:var(--muted);font-size:.7rem}
+    .concierge-form{display:flex;flex-direction:column;justify-content:center;padding:75px max(40px,6vw);background:var(--wine);color:var(--white)}
+    .concierge-form h3{margin:0 0 30px;font-size:2.2rem}
+    .field{display:grid;gap:7px;margin-bottom:17px}
+    .field label{color:var(--gold-light);font-size:.6rem;font-weight:900;letter-spacing:.13em;text-transform:uppercase}
+    .field input,.field select{width:100%;padding:13px 0;border:0;border-bottom:1px solid #744454;outline:0;background:transparent;color:var(--white)}
+    .field select option{color:var(--ink);background:var(--white)}
+    .field input::placeholder{color:#a97f8b}
+    .form-message{min-height:22px;color:var(--gold-light);font-size:.7rem}
+    .concierge-form .action{margin-top:8px;border-color:var(--gold-light);color:var(--wine);background:var(--gold-light)}
+
+    /* ---------- Shopping bag drawer ---------- */
+    .overlay{position:fixed;inset:0;z-index:60;background:rgba(24,10,14,.55);opacity:0;visibility:hidden;transition:.25s}
+    .overlay.open{opacity:1;visibility:visible}
+    .drawer{position:fixed;z-index:70;top:0;right:0;width:min(410px,100%);height:100dvh;display:flex;flex-direction:column;padding:27px;background:var(--paper);transform:translateX(103%);transition:.35s}
+    .drawer.open{transform:none}
+    .drawer-head{display:flex;align-items:center;justify-content:space-between;padding-bottom:20px;border-bottom:1px solid var(--stone)}
+    .drawer-head h2{margin:0;font-size:2rem}
+    .close-button{width:40px;height:40px;border:1px solid var(--stone);border-radius:50%;background:transparent;cursor:pointer;font-size:1.1rem}
+    .cart-items{flex:1;overflow:auto;padding:15px 0}
+    .empty-cart{height:100%;display:grid;place-content:center;text-align:center;color:var(--muted);font-size:.8rem}
+    .empty-cart b{display:block;color:var(--wine);font:1.4rem Georgia,serif}
+    .cart-item{display:grid;grid-template-columns:1fr auto;gap:10px;padding:15px 0;border-bottom:1px solid var(--stone)}
+    .cart-item h4{margin:0;font:1rem Georgia,serif}.cart-item small{color:var(--muted)}
+    .remove-item{border:0;background:transparent;color:var(--wine);cursor:pointer;font-size:.65rem;font-weight:900}
+    .drawer-total{padding-top:18px;border-top:1px solid var(--stone)}
+    .total-row{display:flex;justify-content:space-between;margin-bottom:15px;font-weight:900}
+    .drawer-total .action{width:100%;background:var(--wine);color:var(--white)}
+
+    /* ---------- Age confirmation ---------- */
+    .age-screen{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;background:rgba(30,11,16,.95);transition:.35s}
+    .age-screen.hidden{opacity:0;visibility:hidden}
+    .age-card{width:min(520px,100%);padding:48px;border:1px solid #754454;border-radius:32px;background:var(--wine);color:var(--white);text-align:center}
+    .age-card .brand-mark{margin:0 auto 25px;border-color:var(--gold-light);background:var(--paper);color:var(--wine)}
+    .age-card h2{margin:0 0 14px;font-size:2.4rem}.age-card p{margin:0 auto 27px;color:#d8bdc5;font-size:.82rem}
+    .age-actions{display:flex;justify-content:center;gap:10px}.age-actions .action{border-color:var(--gold-light);color:var(--white)}.age-actions .primary{color:var(--wine);background:var(--gold-light)}
+
+    /* ---------- Responsive behavior ---------- */
+    @media(max-width:1020px){.product-grid{grid-template-columns:repeat(2,1fr)}.hero{grid-template-columns:1fr}.hero-copy{min-height:620px}.hero-image{min-height:640px}.story-layout{gap:45px}.concierge-page{grid-template-columns:1fr}}
+    @media(max-width:760px){:root{--sidebar:0px}.side-nav{inset:auto 10px 10px;width:calc(100% - 20px);height:68px;display:flex;flex-direction:row;align-items:center;padding:8px;border:1px solid var(--stone);border-radius:22px}.brand{display:none}.vertical-tabs{width:100%;display:grid;grid-template-columns:repeat(4,1fr);gap:3px}.tab-button{display:grid;place-items:center;padding:7px 3px;border-radius:14px;font-size:.56rem;text-align:center}.tab-number{display:none}.side-bottom{margin:0}.bag-button{width:47px;height:47px;padding:0;display:grid;place-items:center;border-radius:50%}.bag-button>span:first-child,.responsible{display:none}.bag-count{position:absolute;right:5px;top:4px;width:18px;height:18px;font-size:.5rem}.page-wrap{width:min(100% - 28px,1220px)}.hero-copy{padding:70px 24px}.hero-image{min-height:560px}.page-head{display:block}.page-head p{margin-top:20px}.story-layout{grid-template-columns:1fr;padding:55px 0 100px}.story-image{height:530px}.concierge-page{padding-bottom:90px}.product-grid{grid-template-columns:1fr}.content-page{padding:65px 0 105px}}
+    @media(max-width:520px){h1{font-size:4rem}.hero-copy{min-height:590px}.hero-image{min-height:500px}.product-image{height:330px}.story-copy h2{font-size:3.7rem}.story-image{height:460px}.region{grid-template-columns:90px 1fr}.concierge-copy,.concierge-form{padding:65px 26px}.age-card{padding:35px 23px}.age-actions{flex-direction:column}}
+
+    /* ---------- Final black, amber and wine appearance ---------- */
+    body,main,.tab-panel,.hero,.content-page{background:#070606;color:var(--ink)}
+    .side-nav{border-color:var(--stone);background:rgba(8,7,7,.96)}
+    .brand-copy b{color:var(--white)}
+    .brand-mark{border-color:var(--gold);color:#140d09;background:var(--gold)}
+    .tab-button{color:#9f958e}
+    .tab-button:hover{color:var(--gold-light);background:#1b1513}
+    .tab-button.active{color:var(--white);background:var(--wine)}
+    .bag-button{border-color:#613346;color:var(--white);background:#141110}
+    .bag-count{color:#160c0f;background:var(--gold)}
+    .hero{background:#070606}
+    h1,h2,h3,.product-title h3{color:var(--white)}
+    h1 em,.price,.kicker{color:var(--gold)}
+    .action{border-color:#6b5a4b;color:var(--white)}
+    .action.primary{border-color:var(--wine);background:var(--wine)}
+    .action:hover{border-color:var(--gold);background:var(--gold);color:#120d09}
+    .vintage-card{border-color:#8b6140;background:rgba(28,10,16,.86)}
+    .filter-button{border-color:var(--stone);color:#b7aaa2;background:#12100f}
+    .filter-button.active,.filter-button:hover{border-color:var(--gold);color:#160e09;background:var(--gold)}
+    .product-card{border-color:var(--stone);background:#12100f}
+    .product-type{color:#180f09;background:rgba(240,196,118,.93)}
+    .product-info p,.page-head p,.story-copy>p,.region span,.concierge-copy>p{color:var(--muted)}
+    .add-button{border-color:var(--wine);background:var(--wine)}
+    .add-button:hover{border-color:var(--gold);color:#140d09;background:var(--gold)}
+    .story-badge{color:#17100b;background:var(--gold-light)}
+    .region,.region-list,.contact-line{border-color:var(--stone)}
+    .contact-icon{border-color:#6a5548;color:var(--gold)}
+    .concierge-form{background:var(--wine)}
+    .concierge-form .action{border-color:var(--gold);color:#160e09;background:var(--gold)}
+    .drawer{background:#12100f;color:var(--white)}
+    .drawer-head,.cart-item,.drawer-total{border-color:var(--stone)}
+    .close-button{border-color:var(--stone);color:var(--white)}
+    .age-card{border-color:#7b4b35;background:#170b0e}
+    .age-card .brand-mark{color:#160e09;background:var(--gold)}
+    @media(max-width:760px){.side-nav{background:rgba(8,7,7,.97)}}
+  </style>
+</head>
+<body class="locked">
+  <!-- Fixed vertical tabs switch between the four main website panels. -->
+  <aside class="side-nav">
+    <a class="brand" href="#" aria-label="Velluto Cellars home">
+      <span class="brand-mark">V</span>
+      <span class="brand-copy"><b>Velluto</b><span>Cellars & Spirits</span></span>
+    </a>
+    <nav class="vertical-tabs" aria-label="Main navigation">
+      <button class="tab-button active" data-tab="home"><span class="tab-number">01</span>Home</button>
+      <button class="tab-button" data-tab="services"><span class="tab-number">02</span>Services</button>
+      <button class="tab-button" data-tab="about"><span class="tab-number">03</span>About</button>
+      <button class="tab-button" data-tab="contact"><span class="tab-number">04</span>Contact</button>
+    </nav>
+    <div class="side-bottom">
+      <button class="bag-button" id="bagButton"><span>Your selection</span><span class="bag-count" id="bagCount">0</span></button>
+      <p class="responsible">Please enjoy responsibly. For adults of legal drinking age only.</p>
+    </div>
+  </aside>
+
+  <main>
+    <!-- Home tab: minimal introduction with a full-height editorial image. -->
+    <section class="tab-panel active" id="home">
+      <div class="hero">
+        <div class="hero-copy"><span class="kicker">Private wine merchant</span><h1>A cellar of <em>quiet distinction.</em></h1><p>Italian estates, rare Scotch and bottles selected for memorable tables.</p><div class="hero-actions"><button class="action primary jump-tab" data-tab="services">Explore the cellar</button><button class="action jump-tab" data-tab="contact">Speak to a curator</button></div></div>
+        <div class="hero-image"><img src="assets/cellar-hero.jpg" alt="Luxury wine bottle and glass in a softly lit Tuscan cellar"><div class="vintage-card"><small>Curator's note</small><b>Poise over excess.</b></div></div>
+      </div>
+    </section>
+
+    <!-- Services tab: the merchant collection and purchasing services. -->
+    <section class="tab-panel" id="services">
+      <div class="page-wrap content-page">
+        <div class="page-head"><div><span class="kicker">Our services</span><h2>A collection, personally served.</h2></div><p>Shop selected bottles, request private sourcing or ask our concierge to build a considered case.</p></div>
+        <div class="collection-filter"><button class="filter-button active" data-filter="all">All bottles</button><button class="filter-button" data-filter="italian">Italian wine</button><button class="filter-button" data-filter="scotch">Scotch</button><button class="filter-button" data-filter="sparkling">Sparkling</button></div>
+        <div class="product-grid">
+          <article class="product-card" data-category="italian"><div class="product-image"><img src="assets/italian-red.jpg" alt="Italian red wine bottle with a crystal glass"><span class="product-type">Piedmont</span></div><div class="product-info"><div class="product-title"><h3>Barolo Riserva</h3><span class="price">$148</span></div><p>Rose, dark cherry and a long mineral finish.</p><div class="product-bottom"><span class="origin">Nebbiolo · 2018</span><button class="add-button" data-name="Barolo Riserva" data-price="148" aria-label="Add Barolo Riserva">+</button></div></div></article>
+          <article class="product-card" data-category="italian"><div class="product-image"><img src="assets/italian-red.jpg" alt="Brunello-style Italian wine presentation" style="object-position:68% center"><span class="product-type">Tuscany</span></div><div class="product-info"><div class="product-title"><h3>Brunello Aureo</h3><span class="price">$126</span></div><p>Black fruit, cedar and restrained Tuscan warmth.</p><div class="product-bottom"><span class="origin">Sangiovese · 2019</span><button class="add-button" data-name="Brunello Aureo" data-price="126" aria-label="Add Brunello Aureo">+</button></div></div></article>
+          <article class="product-card" data-category="italian"><div class="product-image"><img src="assets/cellar-hero.jpg" alt="Fine wine in an Italian cellar"><span class="product-type">Veneto</span></div><div class="product-info"><div class="product-title"><h3>Amarone Notte</h3><span class="price">$112</span></div><p>Dried plum, cocoa and velvety spice.</p><div class="product-bottom"><span class="origin">Corvina · 2017</span><button class="add-button" data-name="Amarone Notte" data-price="112" aria-label="Add Amarone Notte">+</button></div></div></article>
+          <article class="product-card" data-category="sparkling"><div class="product-image"><img src="assets/cellar-hero.jpg" alt="Elegant bottle in a luxury cellar" style="object-position:75% center"><span class="product-type">Lombardy</span></div><div class="product-info"><div class="product-title"><h3>Franciacorta Oro</h3><span class="price">$84</span></div><p>Fine bubbles, citrus and toasted brioche.</p><div class="product-bottom"><span class="origin">Brut · 2020</span><button class="add-button" data-name="Franciacorta Oro" data-price="84" aria-label="Add Franciacorta Oro">+</button></div></div></article>
+          <article class="product-card" data-category="scotch"><div class="product-image"><img src="assets/scotch-reserve.jpg" alt="Luxury Scotch whisky decanter and crystal tumbler"><span class="product-type">Highland</span></div><div class="product-info"><div class="product-title"><h3>Scoffy Reserve 18</h3><span class="price">$175</span></div><p>Honeyed oak, orchard fruit and gentle smoke.</p><div class="product-bottom"><span class="origin">Single malt · 18 years</span><button class="add-button" data-name="Scoffy Reserve 18" data-price="175" aria-label="Add Scoffy Reserve 18">+</button></div></div></article>
+          <article class="product-card" data-category="scotch"><div class="product-image"><img src="assets/scotch-reserve.jpg" alt="Rare Scotch whisky in a dark lodge" style="object-position:70% center"><span class="product-type">Islay</span></div><div class="product-info"><div class="product-title"><h3>Islay Nocturne</h3><span class="price">$132</span></div><p>Coastal peat, dark caramel and sea salt.</p><div class="product-bottom"><span class="origin">Single malt · 12 years</span><button class="add-button" data-name="Islay Nocturne" data-price="132" aria-label="Add Islay Nocturne">+</button></div></div></article>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- About tab: a spacious introduction to the merchant and its selection philosophy. -->
+    <section class="tab-panel" id="about">
+      <div class="page-wrap story-layout">
+        <div class="story-image"><img src="assets/italian-red.jpg" alt="Italian red wine in a refined Tuscan setting"><div class="story-badge">Since<br>1987</div></div>
+        <div class="story-copy"><span class="kicker">About Velluto</span><h2>Provenance before prestige.</h2><p>Velluto is an independent merchant for Italian wine, Scotch and rare bottles. We select slowly, favoring character, balance and a clear sense of place.</p><div class="region-list"><div class="region"><b>Italian wine</b><span>Estate bottles from Piedmont, Tuscany, Veneto and Lombardy.</span></div><div class="region"><b>Rare Scotch</b><span>Mature Highland, Islay and Speyside cask selections.</span></div><div class="region"><b>Private service</b><span>Personal recommendations for cellars, gifts and important tables.</span></div></div><div class="hero-actions"><button class="action primary jump-tab" data-tab="services">View our services</button></div></div>
+      </div>
+    </section>
+
+    <!-- Contact tab: private assistance and a compact inquiry form. -->
+    <section class="tab-panel" id="contact">
+      <div class="concierge-page"><div class="concierge-copy"><span class="kicker">Private service</span><h2>Your cellar, thoughtfully considered.</h2><p>For gifts, dinners or a personal collection, our concierge can recommend bottles with restraint and care.</p><div class="contact-list"><div class="contact-line"><span class="contact-icon">EM</span><div><b>Email</b><span>concierge@vellutocellars.com</span></div></div><div class="contact-line"><span class="contact-icon">PH</span><div><b>Private line</b><span>+39 02 555 0148</span></div></div><div class="contact-line"><span class="contact-icon">HR</span><div><b>Hours</b><span>Tuesday–Saturday · 10:00–18:00</span></div></div></div></div><form class="concierge-form" id="conciergeForm"><h3>Request a recommendation</h3><div class="field"><label for="name">Your name</label><input id="name" type="text" placeholder="Full name" required></div><div class="field"><label for="email">Email</label><input id="email" type="email" placeholder="name@example.com" required></div><div class="field"><label for="interest">I am selecting for</label><select id="interest" required><option value="">Choose one</option><option>A dinner</option><option>A gift</option><option>A private cellar</option><option>A celebration</option></select></div><p class="form-message" id="formMessage"></p><button class="action" type="submit">Send inquiry</button></form></div>
+    </section>
+  </main>
+
+  <!-- Shopping bag appears over any active tab. -->
+  <div class="overlay" id="overlay"></div>
+  <aside class="drawer" id="drawer" aria-hidden="true"><div class="drawer-head"><h2>Your selection</h2><button class="close-button" id="closeDrawer" aria-label="Close bag">×</button></div><div class="cart-items" id="cartItems"><div class="empty-cart"><b>The cellar awaits.</b>Add a bottle to begin.</div></div><div class="drawer-total"><div class="total-row"><span>Subtotal</span><span id="totalPrice">$0</span></div><button class="action" id="checkoutButton">Request purchase</button></div></aside>
+
+  <!-- Age confirmation is shown once per browser session. -->
+  <div class="age-screen" id="ageScreen"><div class="age-card"><div class="brand-mark">V</div><h2>Welcome to Velluto.</h2><p>This website presents alcoholic beverages. Please confirm that you are of legal drinking age in your location.</p><div class="age-actions"><button class="action primary" id="confirmAge">I am of legal age</button><button class="action" id="leaveSite">Leave</button></div></div></div>
+
+  <script>
+    // Vertical tab controls show one content panel at a time.
+    const tabButtons=[...document.querySelectorAll('.tab-button')];
+    const tabPanels=[...document.querySelectorAll('.tab-panel')];
+    function showTab(id){
+      tabButtons.forEach(button=>button.classList.toggle('active',button.dataset.tab===id));
+      tabPanels.forEach(panel=>panel.classList.toggle('active',panel.id===id));
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+    tabButtons.forEach(button=>button.addEventListener('click',()=>showTab(button.dataset.tab)));
+    document.querySelectorAll('.jump-tab').forEach(button=>button.addEventListener('click',()=>showTab(button.dataset.tab)));
+
+    // Collection filters reveal only products in the selected category.
+    document.querySelectorAll('.filter-button').forEach(button=>button.addEventListener('click',()=>{
+      document.querySelectorAll('.filter-button').forEach(item=>item.classList.remove('active'));
+      button.classList.add('active');
+      const filter=button.dataset.filter;
+      document.querySelectorAll('.product-card').forEach(card=>card.classList.toggle('hidden',filter!=='all'&&card.dataset.category!==filter));
+    }));
+
+    // Shopping bag state and rendering.
+    const cart=[];
+    const drawer=document.getElementById('drawer');
+    const overlay=document.getElementById('overlay');
+    function openDrawer(){drawer.classList.add('open');overlay.classList.add('open');drawer.setAttribute('aria-hidden','false')}
+    function closeDrawer(){drawer.classList.remove('open');overlay.classList.remove('open');drawer.setAttribute('aria-hidden','true')}
+    function renderCart(){
+      document.getElementById('bagCount').textContent=cart.length;
+      document.getElementById('totalPrice').textContent='$'+cart.reduce((sum,item)=>sum+item.price,0);
+      const area=document.getElementById('cartItems');
+      if(!cart.length){area.innerHTML='<div class="empty-cart"><b>The cellar awaits.</b>Add a bottle to begin.</div>';return}
+      area.innerHTML=cart.map((item,index)=>`<div class="cart-item"><div><h4>${item.name}</h4><small>$${item.price}</small></div><button class="remove-item" data-index="${index}">Remove</button></div>`).join('');
+      area.querySelectorAll('.remove-item').forEach(button=>button.addEventListener('click',()=>{cart.splice(Number(button.dataset.index),1);renderCart()}));
+    }
+    document.querySelectorAll('.add-button').forEach(button=>button.addEventListener('click',()=>{cart.push({name:button.dataset.name,price:Number(button.dataset.price)});renderCart();openDrawer()}));
+    document.getElementById('bagButton').addEventListener('click',openDrawer);
+    document.getElementById('closeDrawer').addEventListener('click',closeDrawer);
+    overlay.addEventListener('click',closeDrawer);
+    document.getElementById('checkoutButton').addEventListener('click',()=>alert(cart.length?'A concierge will confirm availability and delivery details.':'Please add a bottle first.'));
+
+    // Concierge form gives an immediate demonstration response.
+    document.getElementById('conciergeForm').addEventListener('submit',event=>{event.preventDefault();document.getElementById('formMessage').textContent='Thank you. A curator will reply shortly.';event.target.reset()});
+
+    // Legal-age confirmation stays accepted for the current browser session.
+    const ageScreen=document.getElementById('ageScreen');
+    let ageAlreadyConfirmed=false;
+    try{ageAlreadyConfirmed=sessionStorage.getItem('velluto-age')==='yes'}catch(error){ageAlreadyConfirmed=false}
+    if(ageAlreadyConfirmed){ageScreen.classList.add('hidden');document.body.classList.remove('locked')}
+    document.getElementById('confirmAge').addEventListener('click',()=>{try{sessionStorage.setItem('velluto-age','yes')}catch(error){}ageScreen.classList.add('hidden');document.body.classList.remove('locked')});
+    document.getElementById('leaveSite').addEventListener('click',()=>{document.querySelector('.age-card').innerHTML='<h2>Thank you.</h2><p>You must be of legal drinking age to view this collection.</p>'});
+  </script>
+</body>
+</html>
